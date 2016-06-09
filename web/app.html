@@ -1,18 +1,23 @@
 require('./todo/todo-list.html')
+require('./about/about.html')
 <app>
     <div>riot</div>
+    <about></about>
     <todo-list store="{opts.store}"></todo-list>
     <script>
-//        this.routeConfig({
-//            path: '',
-//            name: '',
-//            resolve: function(done){
-//
-//            },
-//        })
         "use strict";
-        import actions from './todo/todo.actions'
-        var init = require('./framework/riot-redux').init;
+        import {init} from './framework/riot-redux';
+
         init(this.opts.store)(this);
+
+//        this.routeConfig({
+//            path: '/',
+//            name: '',
+//            resolve: function(ctx, done){
+//
+//            }
+//        });
+
+
     </script>
 </app>

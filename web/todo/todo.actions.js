@@ -4,7 +4,17 @@ function addTodo(text){
         payload: text
     }
 }
-function getTodos(){
-    
+function toggleDoneTodo(id){
+    return {
+        type: 'toggleDoneTodo',
+        payload: id
+    }
 }
-export default {addTodo, getTodos}
+function visibilityTodos(type){
+    return {
+        type: 'visibilityTodos',
+        payload: type
+    }
+}
+
+export default {addTodo, toggleDoneTodo, visibilityTodos}

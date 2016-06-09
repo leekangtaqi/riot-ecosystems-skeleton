@@ -1,12 +1,28 @@
-import Immutable from 'immutable';
+var id = 0;
 
-function todos(todos = Immutable.List([Immutable.Map({name: '111'})]), action){
+function todos(todos = [], action){
     switch (action.type){
         case 'addTodo':
-            return todos.push(Immutable.Map({name: action.payload}));
+            return [...todos, {name: action.payload, isDone: false, id: id++}];
+        case 'toggleDoneTodo':
+            return todos.map(todo=>{
+                if(todo.id === action.payload){
+                    todo.isDone = !todo.isDone;
+                    return todo;
+                }
+                return todo
+            });
         default:
             return todos;
     }
 }
 
-export default {todos}
+function visibility(visibility = 'all', action){
+    if(action.type === 'visibilityTodos'){
+        visibility = action.payload;
+        return visibility;
+    }
+    return visibility;
+}
+
+export default {todos, visibility}

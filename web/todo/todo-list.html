@@ -1,25 +1,54 @@
 <todo-list>
+    <style>
+        .done{
+            color: red
+        }
+    </style>
     <ul>
-        <li each="{todo in opts.store.getState().todos.toJS()}">{todo.name}</li>
+        <li show="{isShow(todo)}" class="{done: todo.isDone}" onclick="{onDoneTodo(todo.id)}" each="{todo in opts.todos}">{todo.name}</li>
+    </ul>
+    <ul>
+        <li onclick="{visibilityTodos('all')}">showAll</li>
+        <li onclick="{visibilityTodos('done')}">showDone</li>
+        <li onclick="{visibilityTodos('todo')}">showTodo</li>
     </ul>
     <input type="text" name="todoName"/>
     <input onclick="{onAddTodo}" type="button" value="添加"/>
     <script>
         "use strict";
         var actions = require('../todo/todo.actions').default;
-//        var connect = require('../framework/riot-redux').connect;
-//        connect(
-//            (state, ownProp) => ({
-//                todos: state.todos
-//            }),
-//            (dispatch) => ({
-//                addTodo: (text)=>{dispatch(actions.addTodo(text))}
-//            })
-//        )(this);
-
-        this.onAddTodo = (e)=> {
-            this.opts.store.dispatch(actions.addTodo(this.todoName.value))
-//            this.opts.addTodo(this.todoName.value);
+        var connect = require('../framework/riot-redux').connect;
+        connect(
+            (state, ownProp) => ({
+                todos: state.todos,
+                visibility: state.visibility
+            }),
+            (dispatch) => ({
+                addTodo: text => {dispatch(actions.addTodo(text))},
+                toggleDoneTodo: id => {dispatch(actions.toggleDoneTodo(id))},
+                visibilityTodos: type => {dispatch(actions.visibilityTodos(type))}
+            })
+        )(this);
+        this.isShow = (todo) =>{
+            if(this.opts.visibility === 'all'){
+                return true;
+            }
+            if(this.opts.visibility === 'done' && todo.isDone){
+                return true;
+            }
+            if(this.opts.visibility === 'todo' && !todo.isDone){
+                return true;
+            }
+            return false;
+        }
+        this.visibilityTodos = type => e => {
+            this.opts.visibilityTodos(type);
+        }
+        this.onDoneTodo = id => e => {
+            this.opts.toggleDoneTodo(id);
+        }
+        this.onAddTodo = e => {
+            this.opts.addTodo(this.todoName.value);
             this.todoName.value = "";
         }
     </script>
