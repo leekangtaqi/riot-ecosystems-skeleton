@@ -2,14 +2,14 @@ require('./nest.html')
 <about show="{show}">
     <div>about page</div>
     <ul>
-        <li><a href="/about/nest">to nest</a></li>
+        <li><a href="/about/nest/_111">to nest</a></li>
     </ul>
     <nest></nest>
     <script>
         this.mixin('router');
         this.$routeConfig([
             {
-                path: '/nest',
+                path: '/nest/_:id',
                 name: 'nest',
                 resolve: function(next, ctx){
                     next();

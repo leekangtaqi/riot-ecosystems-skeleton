@@ -56,7 +56,6 @@ hub._parseRoute = function(){
                 return null;
             }
         }
-
         return req;
     });
     function compareUrl(u1, u2) {
@@ -117,7 +116,9 @@ hub._doRoute = function(){
             if(context){
                 ctx = context;
             }
-            
+            if(!tag.hasOwnProperty('show') || tag.show){
+                return recursiveHints(hints.slice(1), ctx);
+            }
             hub.trigger('state-change', {path, ctx});
             hub.location = path;
             if(route.redirectTo){
@@ -134,11 +135,7 @@ hub._doRoute = function(){
                     !ctx.body && (ctx.body = {});
                     Object.assign(ctx.body, data);
                 }
-                if(tag.hasOwnProperty('show')){
-                    hub._routeTo(tag);
-                    recursiveHints(hints.slice(1), ctx);
-                    return;
-                }
+                hub._routeTo(tag);
                 recursiveHints(hints.slice(1), ctx);
             }
         }
