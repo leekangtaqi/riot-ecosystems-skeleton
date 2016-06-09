@@ -1,0 +1,67 @@
+{
+  "name": "riot-ecosystems-skeleton",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "watch": "npm run riot-hot-reload",
+    "riot-hot-reload": "webpack-dev-server --inline --hot"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leekangtaqi/riot-ecosystems-skeleton.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leekangtaqi/riot-ecosystems-skeleton/issues"
+  },
+  "homepage": "https://github.com/leekangtaqi/riot-ecosystems-skeleton#readme",
+  "dependencies": {
+    "co": "^4.6.0",
+    "immutable": "^3.8.1",
+    "immutablediff": "^0.4.2",
+    "koa": "^1.2.0",
+    "koa-mount": "^1.3.0",
+    "koa-router": "^5.4.0",
+    "koa-static": "^2.0.0",
+    "koa-views": "^4.1.0",
+    "redux": "^3.5.2",
+    "reselect": "^2.5.1",
+    "riot": "^2.4.1",
+    "riotjs-loader": "^3.0.0",
+    "swig": "^1.4.2",
+    "whatwg-fetch": "^1.0.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-external-helpers-2": "^6.3.13",
+    "babel-plugin-transform-class-properties": "^6.9.1",
+    "babel-plugin-transform-decorators": "^6.8.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-transform-es2015-arrow-functions": "^6.8.0",
+    "babel-plugin-transform-runtime": "^6.9.0",
+    "babel-polyfill": "^6.9.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015-node5": "^1.2.0",
+    "babel-preset-es2015-riot": "^1.1.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-preset-stage-3": "^6.5.0",
+    "css-loader": "^0.23.1",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-gzip": "^1.4.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "gulp-webpack": "^1.5.0",
+    "install": "^0.8.1",
+    "npm": "^3.9.5",
+    "require-dir": "^0.3.0",
+    "style-loader": "^0.13.1",
+    "tag-loader": "^0.3.0",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}

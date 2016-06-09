@@ -1,0 +1,26 @@
+<todo-list>
+    <ul>
+        <li each="{todo in opts.store.getState().todos.toJS()}">{todo.name}</li>
+    </ul>
+    <input type="text" name="todoName"/>
+    <input onclick="{onAddTodo}" type="button" value="添加"/>
+    <script>
+        "use strict";
+        var actions = require('../todo/todo.actions').default;
+//        var connect = require('../framework/riot-redux').connect;
+//        connect(
+//            (state, ownProp) => ({
+//                todos: state.todos
+//            }),
+//            (dispatch) => ({
+//                addTodo: (text)=>{dispatch(actions.addTodo(text))}
+//            })
+//        )(this);
+
+        this.onAddTodo = (e)=> {
+            this.opts.store.dispatch(actions.addTodo(this.todoName.value))
+//            this.opts.addTodo(this.todoName.value);
+            this.todoName.value = "";
+        }
+    </script>
+</todo-list>
