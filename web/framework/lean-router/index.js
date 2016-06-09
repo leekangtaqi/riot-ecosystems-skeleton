@@ -20,6 +20,7 @@ hub.init = function(){
 
 hub._parseRoute = function(){
     riot.route.parser(function(path){
+        console.warn(path);
         let req = {};
         let [uri, queryString] = path.split('?');
         let uriParts = uri.split('/');
@@ -78,6 +79,7 @@ hub._doRoute = function(){
             if(!route){
                 return recursiveHints(hints.slice(1));
             }
+            console.log(path);
             let tag = route.tag;
             isFounded = true;
             request.params = params;
@@ -186,7 +188,7 @@ hub._getMetaDataFromRouteMap = function(routeKey){
 
 hub.init();
 
-export default {
+export default (history)=>({
     defaultRoute: null,
 
     prefixPath: '',
@@ -240,4 +242,4 @@ export default {
             return tag.root.localName;
         }
     }
-};
+});

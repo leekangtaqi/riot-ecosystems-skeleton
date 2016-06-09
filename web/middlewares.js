@@ -1,3 +1,7 @@
+const route = store => next => action => {
+    
+};
+
 const logger = store => next => action => {
     let actionName = null;
     let actionShow = null;
@@ -19,7 +23,7 @@ const logger = store => next => action => {
     console.log('next state', store.getState());
     console.groupEnd(actionName);
     return result
-}
+};
 
 const timeoutScheduler = store => next => action => {
     if (!action.meta || !action.meta.delay) {
@@ -34,7 +38,7 @@ const timeoutScheduler = store => next => action => {
     return function cancel() {
         clearTimeout(timeoutId)
     }
-}
+};
 
 const vanillaPromise = store => next => action => {
     if (typeof action.then !== 'function') {
@@ -42,7 +46,7 @@ const vanillaPromise = store => next => action => {
     }
 
     return Promise.resolve(action).then(store.dispatch)
-}
+};
 
 const readyStatePromise = store => next => action => {
     if (!action.promise) {
@@ -60,12 +64,12 @@ const readyStatePromise = store => next => action => {
         result => next(makeAction(true, { result })),
         error => next(makeAction(true, { error }))
     )
-}
+};
 
 const thunk = store => next => action =>
     typeof action === 'function' ?
         action(store.dispatch, store.getState) :
-        next(action)
+        next(action);
 
 
 export default {
