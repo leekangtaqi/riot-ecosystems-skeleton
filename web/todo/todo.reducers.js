@@ -12,6 +12,8 @@ function todos(todos = [], action){
                 }
                 return todo
             });
+        case 'getTodos':
+            return todos;
         default:
             return todos;
     }

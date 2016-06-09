@@ -1,6 +1,20 @@
-<about>
-    <div>hello</div>
+require('./nest.html')
+<about show="{show}">
+    <div>about page</div>
+    <ul>
+        <li><a href="/about/nest">to nest</a></li>
+    </ul>
+    <nest></nest>
     <script>
-
+        this.mixin('router');
+        this.$routeConfig([
+            {
+                path: '/nest',
+                name: 'nest',
+                resolve: function(next, ctx){
+                    next();
+                }
+            }
+        ])
     </script>
 </about>

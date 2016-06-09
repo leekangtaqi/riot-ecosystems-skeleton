@@ -1,16 +1,15 @@
 var stateToOptsMap = {}; // key: state, val: (tag , fn)
 export const connect = (mapStateToOpts, mapDispatchToOpts) => {
     return (tag)=>{
-        if(!mapStateToOpts){
-            throw new Error(`connect expected a mapStateToOpts function`);
-        }
         let provider = recurFindProvider(tag);
-        let opts = mapStateToOpts(provider.opts.store.getState(), tag.opts);
-        Object.keys(opts).map(function(opt){
-            !stateToOptsMap[opt] && (stateToOptsMap[opt] = []);
-            stateToOptsMap[opt].push({tag, mapStateToOpts: mapStateToOpts.toString()});
-        });
-        tag.opts = {...tag.opts, ...opts};
+        if(mapStateToOpts){
+            let opts = mapStateToOpts(provider.opts.store.getState(), tag.opts);
+            Object.keys(opts).map(function(opt){
+                !stateToOptsMap[opt] && (stateToOptsMap[opt] = []);
+                stateToOptsMap[opt].push({tag, mapStateToOpts: mapStateToOpts.toString()});
+            });
+            tag.opts = {...tag.opts, ...opts};
+        }
         if(mapDispatchToOpts){
             let opts = mapDispatchToOpts(provider.opts.store.dispatch, tag.opts);
             tag.opts = {...tag.opts, ...opts};

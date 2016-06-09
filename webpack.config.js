@@ -3,7 +3,7 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        main: ['whatwg-fetch', './web/main.js']
+        main: ['whatwg-fetch', 'babel-polyfill', './web/main.js']
     },
     output: {
         path: path.resolve(__dirname, './public/js'),
@@ -54,9 +54,14 @@ module.exports = {
             }
         ]
     },
+    node: {
+        net: 'mock',
+        dns: 'mock',
+        fs: 'empty'
+    },
     devServer: {
+        historyApiFallback: true,
         contentBase: './', //html root
         hot: true
     }
-    // historyApiFallback: true,
 };

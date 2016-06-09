@@ -1,4 +1,4 @@
-<todo-list>
+<todo-list show="{show}">
     <style>
         .done{
             color: red
@@ -16,8 +16,9 @@
     <input onclick="{onAddTodo}" type="button" value="添加"/>
     <script>
         "use strict";
-        var actions = require('../todo/todo.actions').default;
-        var connect = require('../framework/riot-redux').connect;
+        import actions from '../todo/todo.actions';
+        import {connect} from '../framework/riot-redux';
+
         connect(
             (state, ownProp) => ({
                 todos: state.todos,

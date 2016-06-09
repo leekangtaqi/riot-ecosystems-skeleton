@@ -2,21 +2,34 @@ require('./todo/todo-list.html')
 require('./about/about.html')
 <app>
     <div>riot</div>
+    <ul>
+        <li><a href="/about">about</a></li>
+        <li><a href="/todo">todo</a></li>
+    </ul>
     <about></about>
-    <todo-list store="{opts.store}"></todo-list>
+    <todo-list></todo-list>
     <script>
         "use strict";
         import {init} from './framework/riot-redux';
-
         init(this.opts.store)(this);
-
-//        this.routeConfig({
-//            path: '/',
-//            name: '',
-//            resolve: function(ctx, done){
-//
-//            }
-//        });
+        this.mixin('router');
+        this.$routeConfig([
+            {
+                path: '/about',
+                name: 'about',
+                resolve: function(next, ctx){
+                    next({name: '111'});
+                }
+            },
+            {
+                path: '/todo',
+                name: 'todo-list',
+                resolve: function(next, ctx){
+                    next();
+                },
+                defaultRoute: true
+            }
+        ]);
 
 
     </script>
