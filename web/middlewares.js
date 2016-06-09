@@ -1,7 +1,3 @@
-const route = store => next => action => {
-    
-};
-
 const logger = store => next => action => {
     let actionName = null;
     let actionShow = null;

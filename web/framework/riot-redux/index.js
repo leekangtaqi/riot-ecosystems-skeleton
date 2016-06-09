@@ -23,7 +23,7 @@ export const init = store =>{
             let currState = store.getState();
             let callback = null;
             Object.keys(currState).map(state =>{
-                if(oldState[state] !== currState[state]) {
+                if(oldState[state] !== currState[state] && stateToOptsMap[state]) {
                     callback = v=> {
                         let opts = (new Function('return func = ' + v.mapStateToOpts))()(currState, v.tag.opts);
                         Object.assign(v.tag.opts, opts);

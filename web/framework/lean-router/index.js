@@ -7,6 +7,8 @@ hub.routesMap = {};
 
 hub.defaultRoute = null;
 
+hub.location = null;
+
 hub.init = function(){
     hub._parseRoute();
     riot.route.base('/');
@@ -20,9 +22,12 @@ hub.init = function(){
 
 hub._parseRoute = function(){
     riot.route.parser(function(path){
-        console.warn(path);
         let req = {};
         let [uri, queryString] = path.split('?');
+        let prefix = null;
+        if(hub.location){
+            prefix = compareUrl(hub.location, uri);
+        }
         let uriParts = uri.split('/');
 
         req.params = {};
@@ -45,8 +50,28 @@ hub._parseRoute = function(){
                 return combineUriParts(uriParts, index, i);
             });
         }
+        if(prefix){
+            req.hints = req.hints.filter(hint=>hint.length > prefix.length);
+            if(!req.hints.length){
+                return null;
+            }
+        }
+
         return req;
     });
+    function compareUrl(u1, u2) {
+        var r = [];
+        var arr1 = u1.split('/');
+        var arr2 = u2.split('/');
+        for(var i = 0, len = arr1.length; i<len; i++){
+            if(arr1[i] === arr2[i]){
+                r.push(arr1[i]);
+            }else{
+                break;
+            }
+        }
+        return r.join('/')
+    }
     function combineUriParts(parts, i, combined){
         if(!parts.length || i<=0){
             return combined;
@@ -66,6 +91,9 @@ hub.registerRoute = function({path, name, resolve, redirectTo}, container){
 
 hub._doRoute = function(){
     return req => {
+        if(!req){
+            return;
+        }
         var me = this;
         let isFounded = false;
         let isBreak = false;
@@ -79,7 +107,6 @@ hub._doRoute = function(){
             if(!route){
                 return recursiveHints(hints.slice(1));
             }
-            console.log(path);
             let tag = route.tag;
             isFounded = true;
             request.params = params;
@@ -90,6 +117,9 @@ hub._doRoute = function(){
             if(context){
                 ctx = context;
             }
+            
+            hub.trigger('state-change', {path, ctx});
+            hub.location = path;
             if(route.redirectTo){
                 isBreak = true;
                 return riot.route(route.redirectTo);
@@ -188,7 +218,7 @@ hub._getMetaDataFromRouteMap = function(routeKey){
 
 hub.init();
 
-export default (history)=>({
+export default { hub: hub, router: (history)=>({
     defaultRoute: null,
 
     prefixPath: '',
@@ -242,4 +272,4 @@ export default (history)=>({
             return tag.root.localName;
         }
     }
-});
+})};
