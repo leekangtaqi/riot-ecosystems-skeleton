@@ -29,6 +29,7 @@
     "redux": "^3.5.2",
     "reselect": "^2.5.1",
     "riot": "^2.4.1",
+    "riot-form-mixin": "0.0.6",
     "riotjs-loader": "^3.0.0",
     "swig": "^1.4.2",
     "whatwg-fetch": "^1.0.0"

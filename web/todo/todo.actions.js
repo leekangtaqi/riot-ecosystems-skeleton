@@ -10,12 +10,15 @@ function toggleDoneTodo(id){
         payload: id
     }
 }
-function getTodos(){
+function getTodos(callback){
     return new Promise(function(resolve){
         resolve({
             type: 'getTodos',
             payload: ''
         })
+    }).then(function(res){
+        callback && callback();
+        return res
     })
 }
 function visibilityTodos(type){

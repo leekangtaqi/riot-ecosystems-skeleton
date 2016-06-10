@@ -1,5 +1,7 @@
 function routerMiddlewareCreator(historyMode){
     return store => next => action => {
+        if(action.type === 'route'){
+        }
         next(action);
     }
 }

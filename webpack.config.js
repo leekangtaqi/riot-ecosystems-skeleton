@@ -3,7 +3,8 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        main: ['whatwg-fetch', 'babel-polyfill', './web/main.js']
+        main: ['whatwg-fetch', './web/main.js']
+        // main: ['whatwg-fetch', 'babel-polyfill', './web/main.js']
     },
     output: {
         path: path.resolve(__dirname, './public/js'),
@@ -11,6 +12,9 @@ module.exports = {
     },
     devtool: 'source-map',
     plugins: [
+        // new webpack.DefinePlugin({
+        //     'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+        // }),
         new webpack.ProvidePlugin({
             riot: 'riot'
         })
@@ -23,34 +27,23 @@ module.exports = {
         }
     },
     module: {
-        // preLoaders: [
-        //     {
-        //         test: /\.html$/,
-        //         exclude: /node_modules/,
-        //         loader: 'riotjs-loader',
-        //         query: { type: 'none' }
-        //     }
-        // ],
+        preLoaders: [
+            {
+                test: /\.html$/,
+                exclude: /node_modules/,
+                loader: 'riotjs-loader',
+                query: { type: 'babel' }
+            }
+        ],
         loaders: [
             {
                 test: /\.js$/,
                 include: /web/,
-                loader: 'babel',
-                query: {
-                    plugins: ['transform-runtime']
-                }
+                loader: 'babel'
             },
             {
                 test: /\.scss$/,
                 loader: 'style!css!sass'
-            },
-            {
-                test: /\.html?$/,
-                loader: 'tag-loader',
-                exclude: /(node_modules|bower_components)/,
-                query: {
-                    type: 'babel'
-                }
             }
         ]
     },

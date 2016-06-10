@@ -1,6 +1,6 @@
-var id = 0;
+var id = 1;
 
-function todos(todos = [], action){
+function todos(todos = [{id: 0, name: 'init', isDone: false}], action){
     switch (action.type){
         case 'addTodo':
             return [...todos, {name: action.payload, isDone: false, id: id++}];

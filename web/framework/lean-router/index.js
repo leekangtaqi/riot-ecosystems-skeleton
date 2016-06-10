@@ -3,7 +3,7 @@ import riot from 'riot';
 
 var hub = riot.observable();
 
-hub.routesMap = {};
+hub.routes = {};
 
 hub.defaultRoute = null;
 
@@ -80,11 +80,13 @@ hub._parseRoute = function(){
     }
 };
 
-hub.registerRoute = function({path, name, resolve, redirectTo}, container){
-    hub.routesMap[path] = {
+hub.registerRoute = function({path, name, resolve, redirectTo, ...rest}, container){
+    hub.routes[path] = {
         resolve,
         redirectTo,
-        tag: container.tags[name]};
+        tag: container.tags[name],
+        ...rest
+    };
     return this;
 };
 
@@ -135,8 +137,13 @@ hub._doRoute = function(){
                     !ctx.body && (ctx.body = {});
                     Object.assign(ctx.body, data);
                 }
-                hub._routeTo(tag);
-                recursiveHints(hints.slice(1), ctx);
+                requestAnimationFrame(function(){
+                    hub.trigger('history-sync', path, ctx, next);
+                });
+                function next(){
+                    hub._routeTo(tag);
+                    recursiveHints(hints.slice(1), ctx);
+                }
             }
         }
         recursiveHints(req.hints);
@@ -178,10 +185,10 @@ hub._routeTo = function(tag){
 
 hub._getMetaDataFromRouteMap = function(routeKey){
     routeKey = '/' + routeKey;
-    let keys = Object.keys(this.routesMap);
+    let keys = Object.keys(this.routes);
     for(let i=0, len=keys.length; i<len; i++){
         let k = keys[i];
-        let route = this.routesMap[k];
+        let route = this.routes[k];
         if(toPattern(k) === toPattern(routeKey)){
             let paramKeys = (extractParams(k) || []).map(i=>i.slice(2));
             let paramValues = (extractParams(routeKey) || []).map(i=>i.slice(1));

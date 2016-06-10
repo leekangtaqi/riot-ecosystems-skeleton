@@ -1,0 +1,22 @@
+<html>
+<head>
+    <script src="./node_modules/riot/riot.js"></script>
+</head>
+
+<body>
+<h1>Hello Plunker!</h1>
+<script>
+    var o = riot.observable();
+    o.on('foo', function(done){
+        console.log('receive.');
+        done();
+    })
+    function recur(){
+        console.log("!!!")
+        o.trigger('foo', recur)
+    }
+    recur();
+</script>
+
+</body>
+</html>

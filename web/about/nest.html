@@ -16,7 +16,7 @@ require('./test2.html');
                 route: state.route
             }),
             (dispatch)=>({
-                getTodos: ()=>{dispatch(actions.getTodos())}
+                getTodos: (next) => dispatch(actions.getTodos(next))
             })
         )(this);
         this.mixin('router');
@@ -25,9 +25,9 @@ require('./test2.html');
             {
                 path: '/test1',
                 name: 'test1',
-                resolve: async function(next){
-                    await me.opts.getTodos();
-                    next();
+                auth: true,
+                resolve: function(next){
+                    me.opts.getTodos(next);
                 }
             },
             {
@@ -37,6 +37,6 @@ require('./test2.html');
                     next();
                 }
             }
-        ])
+        ]);
     </script>
 </nest>

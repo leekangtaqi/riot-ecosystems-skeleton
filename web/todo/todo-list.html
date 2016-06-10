@@ -27,9 +27,15 @@
             (dispatch) => ({
                 addTodo: text => {dispatch(actions.addTodo(text))},
                 toggleDoneTodo: id => {dispatch(actions.toggleDoneTodo(id))},
-                visibilityTodos: type => {dispatch(actions.visibilityTodos(type))}
+                visibilityTodos: type => {dispatch(actions.visibilityTodos(type))},
+                getTodos: ()=> {dispatch(actions.getTodos())}
             })
         )(this);
+
+        this.on('mount', ()=>{
+            this.opts.getTodos();
+        })
+
         this.isShow = (todo) =>{
             if(this.opts.visibility === 'all'){
                 return true;
