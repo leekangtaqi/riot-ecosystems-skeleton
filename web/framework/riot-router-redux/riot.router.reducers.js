@@ -1,11 +1,17 @@
 const route = (route= {path: '/', prev: '/', stack: []}, action) => {
-    if(action.type === 'route'){
-        return {
-            prev: route.path,
-            path: action.payload.route.path,
-            data: action.payload.route.ctx
-        }
+    switch (action.type) {
+        case '$route':
+            return Object.assign({}, route, {
+                prev: route.path,
+                path: action.payload.route.path,
+                data: action.payload.route.ctx
+            });
+        case '$routeBusy':
+            return Object.assign({}, route, {busy: true});
+        case '$routeUnBusy':
+            return Object.assign({}, route, {busy: false});
+        default:
+            return route;
     }
-    return route;
 };
 export default {route}

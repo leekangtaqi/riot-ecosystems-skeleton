@@ -6,6 +6,13 @@ require('./nest.html')
     </ul>
     <nest></nest>
     <script>
+        import {connect} from '../framework/riot-redux';
+        connect(
+            null,
+            dispatch => ({
+                dispatch: dispatch
+            })
+        )(this);
         this.mixin('router');
         this.$routeConfig([
             {

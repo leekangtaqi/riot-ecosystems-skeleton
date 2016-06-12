@@ -8,10 +8,21 @@ function routerMiddlewareCreator(historyMode){
 function syncHistoryWithStore(hub, store){
     hub.on('state-change', route=>{
         store.dispatch({
-            type: 'route',
+            type: '$route',
             payload: {
-                route: route
+                route: route,
+                busy: hub.busy
             }
+        })
+    });
+    hub.on('busy-pending', ()=>{
+        store.dispatch({
+            type: '$routeBusy'
+        })
+    });
+    hub.on('busy-resolve', ()=>{
+        store.dispatch({
+            type: '$routeUnBusy'
         })
     })
 }

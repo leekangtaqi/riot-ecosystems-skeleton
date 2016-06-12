@@ -6,6 +6,8 @@ var hub = riot.observable();
 
 hub.view = viewCreator(hub);
 
+hub.busy = false;
+
 hub.routes = {};
 
 hub.defaultRoute = null;
@@ -101,8 +103,12 @@ hub._doRoute = function(){
         var me = this;
         let isFounded = false;
         let isBreak = false;
+        hub.busy = true;
+        hub.trigger('busy-pending');
         function recursiveHints(hints, context){
             if(!hints.length || isBreak){
+                hub.busy = false;
+                hub.trigger('busy-resolve');
                 return;
             }
             let path = hints[0];
@@ -161,6 +167,8 @@ hub._doRoute = function(){
             try{
                 let url = hub.defaultRoute.path;
                 let paramsParts = url.match(/_[a-zA-Z0-9:]+/g);
+                hub.busy = false;
+                hub.trigger('busy-resolve');
                 if(paramsParts && paramsParts.length){
                     paramsParts.map(part=>{
                         let key = part.slice(2);
@@ -172,6 +180,8 @@ hub._doRoute = function(){
                 }
                 riot.route(url);
             }catch(e){
+                hub.busy = false;
+                hub.trigger('busy-resolve');
                 console.warn(e);
                 console.info('404')
             }
