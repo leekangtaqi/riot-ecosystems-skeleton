@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "npm run riot-hot-reload",
     "riot-hot-reload": "webpack-dev-server --inline --hot",
-    "build": "gulp webpack --",
+    "build": "gulp webpack",
     "start": "NODE_ENV=production node ./server/app"
   },
   "repository": {

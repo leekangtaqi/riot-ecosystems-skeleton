@@ -2,6 +2,7 @@ import _ from './framework/util';
 import {} from './framework/jQueryLean';
 import riot from 'riot';
 import { applyMiddleware, createStore, combineReducers, compose} from 'redux';
+import { provide } from './framework/riot-redux';
 import router from './framework/lean-router';
 import riotRouterRedux from './framework/riot-router-redux';
 import middlewares from './middlewares';
@@ -25,4 +26,5 @@ router.hub.on('history-pending', (prev, curr, ctx, next)=>{
 });
 
 require('./app.html');
-riot.mount('*', {store}); //app is provider
+let entry = riot.mount('*', {store}); //app is provider
+provide(store)(entry);

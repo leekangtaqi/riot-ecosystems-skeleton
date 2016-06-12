@@ -1,10 +1,10 @@
 var stateToOptsMap = {}; // key: state, val: (tag , fn)
 export const connect = (mapStateToOpts, mapDispatchToOpts) => {
-    return (tag)=>{
+    return tag => {
         let provider = recurFindProvider(tag);
         if(mapStateToOpts){
             let opts = mapStateToOpts(provider.opts.store.getState(), tag.opts);
-            Object.keys(opts).map(function(opt){
+            Object.keys(opts).map(opt => {
                 !stateToOptsMap[opt] && (stateToOptsMap[opt] = []);
                 stateToOptsMap[opt].push({tag, mapStateToOpts: mapStateToOpts.toString()});
             });
@@ -16,15 +16,15 @@ export const connect = (mapStateToOpts, mapDispatchToOpts) => {
         }
     }
 };
-export const init = store =>{
+export const provide = store =>{
     var oldState = store.getState();
-    return (provider) => {
+    return provider => {
         store.subscribe(()=>{
             let currState = store.getState();
             let callback = null;
-            Object.keys(currState).map(state =>{
+            Object.keys(currState).map(state => {
                 if(oldState[state] !== currState[state] && stateToOptsMap[state]) {
-                    callback = v=> {
+                    callback = v => {
                         let opts = (new Function('return func = ' + v.mapStateToOpts))()(currState, v.tag.opts);
                         Object.assign(v.tag.opts, opts);
                         v.tag.update();
@@ -36,7 +36,7 @@ export const init = store =>{
         })
     }
 };
-const recurFindProvider = (tag) => {
+const recurFindProvider = tag => {
     if(!tag.parent) return tag;
     return recurFindProvider(tag.parent);
 };

@@ -10,27 +10,24 @@ require('./about/about.html')
     <todo-list></todo-list>
     <script>
         "use strict";
-        import {init} from './framework/riot-redux';
-        init(this.opts.store)(this);
         this.mixin('router');
         this.$routeConfig([
             {
                 path: '/about',
                 name: 'about',
-                resolve: function(next, ctx){
+                resolve: (next, ctx) => {
                     next({name: '111'});
                 }
             },
             {
                 path: '/todo',
                 name: 'todo-list',
-                resolve: function(next, ctx){
+                resolve: (next, ctx) => {
                     next();
                 },
                 defaultRoute: true
             }
         ]);
-
 
     </script>
 </app>
