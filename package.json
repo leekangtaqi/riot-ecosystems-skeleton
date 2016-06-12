@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "watch": "npm run riot-hot-reload",
-    "riot-hot-reload": "webpack-dev-server --inline --hot"
+    "riot-hot-reload": "webpack-dev-server --inline --hot",
+    "build": "gulp webpack --",
+    "start": "NODE_ENV=production node ./server/app"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,7 @@
   },
   "homepage": "https://github.com/leekangtaqi/riot-ecosystems-skeleton#readme",
   "dependencies": {
+    "bluebird": "^3.4.0",
     "co": "^4.6.0",
     "immutable": "^3.8.1",
     "immutablediff": "^0.4.2",
