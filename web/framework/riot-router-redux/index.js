@@ -10,8 +10,7 @@ function syncHistoryWithStore(hub, store){
         store.dispatch({
             type: '$route',
             payload: {
-                route: route,
-                busy: hub.busy
+                route: route
             }
         })
     });

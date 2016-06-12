@@ -22,7 +22,6 @@ riot.mixin('form', form);
 riotRouterRedux.syncHistoryWithStore(router.hub, store);
 
 router.hub.on('history-pending', (prev, curr, ctx, next)=>{
-    console.log("************************")
     next && next();
 });
 

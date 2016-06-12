@@ -14,17 +14,11 @@ require('./about/about.html')
         this.$routeConfig([
             {
                 path: '/about',
-                name: 'about',
-                resolve: (next, ctx) => {
-                    next({name: '111'});
-                }
+                name: 'about'
             },
             {
                 path: '/todo',
                 name: 'todo-list',
-                resolve: (next, ctx) => {
-                    next();
-                },
                 defaultRoute: true
             }
         ]);

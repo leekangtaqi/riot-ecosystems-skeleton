@@ -32,10 +32,6 @@
             })
         )(this);
 
-        this.on('mount', ()=>{
-            this.opts.getTodos();
-        });
-
         this.isShow = todo =>{
             if(this.opts.visibility === 'all'){
                 return true;

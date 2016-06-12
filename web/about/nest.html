@@ -24,17 +24,11 @@ require('./test2.html');
             {
                 path: '/test1',
                 name: 'test1',
-                auth: true,
-                resolve: (next) => {
-                    this.opts.getTodos(next);
-                }
+                auth: true
             },
             {
                 path: '/test2',
-                name: 'test2',
-                resolve: (next) => {
-                    next();
-                }
+                name: 'test2'
             }
         ]);
     </script>
