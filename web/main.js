@@ -1,5 +1,5 @@
 import _ from './framework/util';
-import jQuery from './framework/jQueryLean';
+import {} from './framework/jQueryLean';
 import riot from 'riot';
 import { applyMiddleware, createStore, combineReducers, compose} from 'redux';
 import router from './framework/lean-router';
