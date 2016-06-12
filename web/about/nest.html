@@ -11,6 +11,7 @@ require('./test2.html');
     <script>
         import {connect} from '../framework/riot-redux';
         import actions from '../todo/todo.actions';
+        this.mixin('router');
         connect(
             (state)=>({
                 route: state.route
@@ -19,21 +20,19 @@ require('./test2.html');
                 getTodos: (next) => dispatch(actions.getTodos(next))
             })
         )(this);
-        this.mixin('router');
-        var me = this;
         this.$routeConfig([
             {
                 path: '/test1',
                 name: 'test1',
                 auth: true,
-                resolve: function(next){
-                    me.opts.getTodos(next);
+                resolve: (next) => {
+                    this.opts.getTodos(next);
                 }
             },
             {
                 path: '/test2',
                 name: 'test2',
-                resolve: function(next){
+                resolve: (next) => {
                     next();
                 }
             }

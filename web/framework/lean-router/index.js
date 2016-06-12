@@ -1,7 +1,10 @@
 "use strict";
 import riot from 'riot';
+import viewCreator from '../lean-view';
 
 var hub = riot.observable();
+
+hub.view = viewCreator(hub);
 
 hub.routes = {};
 
@@ -20,7 +23,7 @@ hub.init = function(){
     }
 };
 
-hub._parseRoute = function(){
+hub._parseRoute = () => {
     riot.route.parser(function(path){
         let req = {};
         let [uri, queryString] = path.split('?');
@@ -122,14 +125,12 @@ hub._doRoute = function(){
                 return recursiveHints(hints.slice(1), ctx);
             }
             hub.trigger('state-change', {path, ctx});
-            hub.location = path;
             if(route.redirectTo){
                 isBreak = true;
                 return riot.route(route.redirectTo);
             }
             if(route.resolve){
-                route.resolve.apply(tag, [done, ctx]);
-                return;
+                return route.resolve.apply(tag, [done, ctx]);
             }
             done();
             function done(data){
@@ -137,12 +138,21 @@ hub._doRoute = function(){
                     !ctx.body && (ctx.body = {});
                     Object.assign(ctx.body, data);
                 }
-                requestAnimationFrame(function(){
-                    hub.trigger('history-sync', path, ctx, next);
+                requestAnimationFrame(()=>{
+                    hub.trigger('history-pending',
+                        hub.location,
+                        path,
+                        ctx,
+                        hub._executeMiddlewares(tag, tag.$mws, pendingDone),
+                    );
                 });
-                function next(){
-                    hub._routeTo(tag);
-                    recursiveHints(hints.slice(1), ctx);
+                function pendingDone(){
+                    requestAnimationFrame(()=>{
+                        hub.trigger('history-resolve', hub._getMetaDataFromRouteMap(hub.location).route, route, ctx, ()=>{
+                            hub.location = path;
+                            recursiveHints(hints.slice(1), ctx);
+                        })
+                    })
                 }
             }
         }
@@ -169,18 +179,13 @@ hub._doRoute = function(){
     };
 };
 
-hub._routeTo = function(tag){
-    tag.show = true;
-    tag.update();
-    Object.keys(tag.parent.tags)
-        .map(k=>tag.parent.tags[k])
-        .filter(t=>t!=tag)
-        .forEach(t=>{
-            if(tag.hasOwnProperty('show')){
-                t.show = false;
-                t.update();
-            }
-        });
+hub._executeMiddlewares = (component, mws, done) => {
+    return function nextFn(){
+        if(!mws || !mws.length){
+            return done();
+        }
+        mws[0].call(component, () => hub._executeMiddlewares(component, mws.slice(1), done)());
+    }
 };
 
 hub._getMetaDataFromRouteMap = function(routeKey){
@@ -211,7 +216,7 @@ hub._getMetaDataFromRouteMap = function(routeKey){
             o[k] = vs[index]
         });
         return o;
-    };
+    }
     function extractParams(path){
         return path.match(/_[a-zA-Z0-9:]+/g);
     }
@@ -242,13 +247,14 @@ export default { hub: hub, router: (history)=>({
         return this;
     },
 
-    _viewify: function({name}, tag){
-        tag.tags[name].show = false;
-    },
-
     prefix: function(prefix){
         this.prefixPath = prefix;
         return this;
+    },
+
+    $use: function(fn){
+        !this.$mws && (this.$mws = []);
+        this.$mws.push(fn);
     },
 
     $routeConfig: function(routes){
@@ -259,7 +265,7 @@ export default { hub: hub, router: (history)=>({
             if(route.defaultRoute){
                 hub.defaultRoute = route;
             }
-            this._viewify(route, this)
+            hub.view.init(this.tags[route.name]);
             this._registerRoute(route, this);
         });
         function getPrefix(tag){

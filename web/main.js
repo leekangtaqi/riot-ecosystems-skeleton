@@ -17,8 +17,7 @@ const store = compose(applyMiddleware(routeMw, ...(_.values(middlewares))))(crea
 riot.mixin('router', router.router(HISTORY_MODE));
 riotRouterRedux.syncHistoryWithStore(router.hub, store);
 
-router.hub.on('history-sync', (path, ctx, next)=>{
-    console.log("history route**************");
+router.hub.on('history-pending', (prev, curr, ctx, next)=>{
     next && next();
 });
 

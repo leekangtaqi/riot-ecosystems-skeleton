@@ -34,7 +34,7 @@
 
         this.on('mount', ()=>{
             this.opts.getTodos();
-        })
+        });
 
         this.isShow = (todo) =>{
             if(this.opts.visibility === 'all'){
@@ -47,16 +47,16 @@
                 return true;
             }
             return false;
-        }
+        };
         this.visibilityTodos = type => e => {
             this.opts.visibilityTodos(type);
-        }
+        };
         this.onDoneTodo = id => e => {
             this.opts.toggleDoneTodo(id);
-        }
+        };
         this.onAddTodo = e => {
             this.opts.addTodo(this.todoName.value);
             this.todoName.value = "";
-        }
+        };
     </script>
 </todo-list>

@@ -1,22 +1,27 @@
 <html>
-<head>
-    <script src="./node_modules/riot/riot.js"></script>
-</head>
-
+<header>
+    <style>
+        .test{
+            color: red;
+            transition: 10s;
+        }
+        .test1{
+            color: blue
+        }
+    </style>
+</header>
 <body>
-<h1>Hello Plunker!</h1>
-<script>
-    var o = riot.observable();
-    o.on('foo', function(done){
-        console.log('receive.');
-        done();
-    })
-    function recur(){
-        console.log("!!!")
-        o.trigger('foo', recur)
-    }
-    recur();
-</script>
-
+    <div id="test" class="test">
+        222
+    </div>
+    <script>
+        var test = document.getElementById("test");
+        setTimeout(function(){
+            test.addClass("test1")
+        }, 1000)
+        test.addClass = function(cls){
+            this.className += " " + cls;
+        };
+    </script>
 </body>
 </html>
