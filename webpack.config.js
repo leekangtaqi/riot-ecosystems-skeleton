@@ -23,7 +23,7 @@ module.exports = {
         extensions: ['', '.js'],
         root: __dirname,
         alias: {
-            // riot: '../node_modules/riot/riot.min.js',
+            'riot-form': '../node_modules/riot-form-mixin/lib/validator',
         }
     },
     module: {
