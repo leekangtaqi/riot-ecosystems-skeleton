@@ -21,7 +21,7 @@ riot.mixin('form', form);
 
 riotRouterRedux.syncHistoryWithStore(router.hub, store);
 
-router.hub.on('history-pending', (prev, curr, ctx, next)=>{
+router.hub.on('history-pending', (prev, $state, $location, ctx, next)=>{
     next && next();
 });
 

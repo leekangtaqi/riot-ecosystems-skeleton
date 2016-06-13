@@ -1,4 +1,5 @@
 var stateToOptsMap = {}; // key: state, val: (tag , fn)
+
 export const connect = (mapStateToOpts, mapDispatchToOpts) => {
     return tag => {
         let provider = recurFindProvider(tag);
@@ -16,20 +17,15 @@ export const connect = (mapStateToOpts, mapDispatchToOpts) => {
         }
     }
 };
+
 export const provide = store =>{
     var oldState = store.getState();
     return provider => {
         store.subscribe(()=>{
             let currState = store.getState();
             let callback = null;
-            Object.keys(currState).map(state => {
-                // console.group("start***********")
-                // console.warn(state);
-                // console.warn(oldState[state]);
-                // console.warn(currState[state]);
-                // console.warn(oldState[state] === currState[state]);
-                // console.groupEnd("end*************")
-                if(oldState[state] !== currState[state] && stateToOptsMap[state]) {
+            Object.keys(currState).map(s => {
+                if((oldState[s] !== currState[s]) && stateToOptsMap[s]) {
                     callback = v => {
                         let opts = (new Function('return func = ' + v.mapStateToOpts))()(currState, v.tag.opts);
                         let mutableOpts = Object.keys(opts)
@@ -39,13 +35,14 @@ export const provide = store =>{
                             v.tag.update();
                         }
                     };
-                    stateToOptsMap[state].forEach(callback);
+                    stateToOptsMap[s].forEach(callback);
                 }
             });
             oldState = currState;
         })
     }
 };
+
 const recurFindProvider = tag => {
     if(!tag.parent) return tag;
     return recurFindProvider(tag.parent);

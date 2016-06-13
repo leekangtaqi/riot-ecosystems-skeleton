@@ -7,20 +7,17 @@ require('./nest.html')
     <nest></nest>
     <script>
         import {connect} from '../framework/riot-redux';
+        this.mixin('router');
         connect(
             null,
             dispatch => ({
                 dispatch: dispatch
             })
         )(this);
-        this.mixin('router');
         this.$routeConfig([
             {
                 path: '/nest/_:id',
-                name: 'nest',
-                resolve: function(next, ctx){
-                    next();
-                }
+                name: 'nest'
             }
         ])
     </script>

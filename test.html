@@ -3,12 +3,18 @@
         <script src="./node_modules/riot/riot.js"></script>
     </header>
     <body>
-        <test></test>
+        <test style="color:red" class="xx" id="111"></test>
         <script>
-//            name, html, css, attrs, fn
+            var css = {
+                color: 'red'
+            }
+            var test1 = {
+                name: '111'
+            }
             riot.tag('test', `
                 <div>{test.name}</div>
-            `, function(){
+            `, css, test1, function(){
+                console.warn(this.opts)
                 var me = this;
                 this.test = {
                     name: '111',

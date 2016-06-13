@@ -113,7 +113,7 @@ hub._doRoute = function(){
             }
             let path = hints[0];
             let request = {};
-            let {route, params} = me._getMetaDataFromRouteMap(path);
+            let {route, params, $state, $location} = me._getMetaDataFromRouteMap(path);
             if(!route){
                 return recursiveHints(hints.slice(1));
             }
@@ -130,7 +130,7 @@ hub._doRoute = function(){
             if(!tag.hasOwnProperty('show') || tag.show){
                 return recursiveHints(hints.slice(1), ctx);
             }
-            hub.trigger('state-change', {path, ctx});
+            hub.trigger('state-change', {$state, $location, ctx});
             if(route.redirectTo){
                 isBreak = true;
                 return riot.route(route.redirectTo);
@@ -147,7 +147,8 @@ hub._doRoute = function(){
                 requestAnimationFrame(()=>{
                     hub.trigger('history-pending',
                         hub.location,
-                        path,
+                        $state,
+                        $location,
                         ctx,
                         hub._executeMiddlewares(tag, tag.$mws, pendingDone),
                     );
@@ -155,7 +156,7 @@ hub._doRoute = function(){
                 function pendingDone(){
                     requestAnimationFrame(()=>{
                         hub.trigger('history-resolve', hub._getMetaDataFromRouteMap(hub.location).route, route, ctx, ()=>{
-                            hub.location = path;
+                            hub.location = $location;
                             recursiveHints(hints.slice(1), ctx);
                         })
                     })
@@ -209,6 +210,8 @@ hub._getMetaDataFromRouteMap = function(routeKey){
             let paramValues = (extractParams(routeKey) || []).map(i=>i.slice(1));
             return {
                 route,
+                $state: k,
+                $location: routeKey,
                 params: composeObject(paramKeys, paramValues)
             };
         }
