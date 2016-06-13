@@ -4,6 +4,7 @@
             color: red
         }
     </style>
+    <div><b>FIRST TODO NAME: </b> {opts.firstToName}</div>
     <ul>
         <li show="{isShow(todo)}" class="{done: todo.isDone}" onclick="{onDoneTodo(todo.id)}" each="{todo in opts.todos}">{todo.name}</li>
     </ul>
@@ -22,7 +23,8 @@
         connect(
             (state, ownProp) => ({
                 todos: state.todos,
-                visibility: state.visibility
+                visibility: state.visibility,
+                firstToName: state.todos[0].name
             }),
             (dispatch) => ({
                 addTodo: text => {dispatch(actions.addTodo(text))},

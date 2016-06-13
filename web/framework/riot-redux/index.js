@@ -23,11 +23,21 @@ export const provide = store =>{
             let currState = store.getState();
             let callback = null;
             Object.keys(currState).map(state => {
+                // console.group("start***********")
+                // console.warn(state);
+                // console.warn(oldState[state]);
+                // console.warn(currState[state]);
+                // console.warn(oldState[state] === currState[state]);
+                // console.groupEnd("end*************")
                 if(oldState[state] !== currState[state] && stateToOptsMap[state]) {
                     callback = v => {
                         let opts = (new Function('return func = ' + v.mapStateToOpts))()(currState, v.tag.opts);
-                        Object.assign(v.tag.opts, opts);
-                        v.tag.update();
+                        let mutableOpts = Object.keys(opts)
+                            .filter(opt => v.tag.opts[opt] !== opts[opt]);
+                        if(mutableOpts && mutableOpts.length){
+                            Object.assign(v.tag.opts, opts);
+                            v.tag.update();
+                        }
                     };
                     stateToOptsMap[state].forEach(callback);
                 }

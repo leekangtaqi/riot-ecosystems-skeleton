@@ -1,27 +1,40 @@
 <html>
-<header>
-    <style>
-        .test{
-            color: red;
-            transition: 10s;
-        }
-        .test1{
-            color: blue
-        }
-    </style>
-</header>
-<body>
-    <div id="test" class="test">
-        222
-    </div>
-    <script>
-        var test = document.getElementById("test");
-        setTimeout(function(){
-            test.addClass("test1")
-        }, 1000)
-        test.addClass = function(cls){
-            this.className += " " + cls;
-        };
-    </script>
-</body>
+    <header>
+        <script src="./node_modules/riot/riot.js"></script>
+    </header>
+    <body>
+        <test></test>
+        <script>
+//            name, html, css, attrs, fn
+            riot.tag('test', `
+                <div>{test.name}</div>
+            `, function(){
+                var me = this;
+                this.test = {
+                    name: '111',
+                    auth: {
+                        token: '222'
+                    }
+                }
+                this.on('update', function(){
+                    console.log("****")
+                })
+                setTimeout(function(){
+                    var val1 = me.test;
+                    me.test = {
+                        name: '111',
+                        auth: {
+                            token: '222'
+                        }
+                    };
+                    var val2 = me.test;
+                    console.log(val1)
+                    console.log(val2)
+                    console.log(val1 === val2)
+                    me.update({test: {name: '222'}});
+                }, 1000)
+            })
+            riot.mount('*');
+        </script>
+    </body>
 </html>
