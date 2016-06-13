@@ -1,14 +1,6 @@
 <test1 show="{show}">
-    <div>{this.opts.route.$state}</div>
+    <div>test1</div>
     <script>
-        import {connect} from '../framework/riot-redux';
-        connect(
-            state=>({
-                route: state.route
-            })
-        )(this);
-        this.on('update', function(){
-            console.warn(this.opts.route.$location)
-        })
+
     </script>
 </test1>
