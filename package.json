@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "watch": "npm run riot-hot-reload sass",
+    "watch": "npm run riot-hot-reload | npm run sass",
     "sass": "compass watch",
     "riot-hot-reload": "webpack-dev-server --inline --hot",
     "build": "gulp webpack",
