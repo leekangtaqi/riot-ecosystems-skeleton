@@ -1,4 +1,5 @@
 function addTodo(text){
+    console.log($.get)
     return {
         type: 'addTodo',
         payload: text

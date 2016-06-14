@@ -3,7 +3,7 @@ var path = require('path');
 
 module.exports = {
     entry: {
-        main: ['whatwg-fetch', './web/main.js']
+        main: ['whatwg-fetch', './web/app/main.js']
         // main: ['whatwg-fetch', 'babel-polyfill', './web/main.js']
     },
     output: {
@@ -23,7 +23,8 @@ module.exports = {
         extensions: ['', '.js'],
         root: __dirname,
         alias: {
-            'riot-form': '../node_modules/riot-form-mixin/lib/validator',
+            'riot-form': '../../node_modules/riot-form-mixin/lib/validator',
+            'riot-redux': '../../../web/framework/riot-redux',
         }
     },
     module: {
