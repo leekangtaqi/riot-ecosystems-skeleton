@@ -1,0 +1,38 @@
+<loading>
+    <div show="{opts.mask}" class="load-container">
+        <div class="loading-icon-container" style="top: {posTop}px">
+            <div class="loading-icon"></div>
+        </div>
+    </div>
+    <style scoped>
+        .load-container{
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            background: black;
+            opacity: 0.2;
+        }
+        .loading-icon-container{
+            position: absolute;
+            width: 100%;
+        }
+        .loading-icon{
+            background: transparent url('/web/images/loading.gif') no-repeat;
+            margin: 0px auto;
+            width: 80px;
+            height: 80px;
+        }
+    </style>
+    <script>
+        import {connect} from '../framework/riot-redux';
+
+        connect(
+            (state)=>({
+                mask: state.mask
+            })
+        )(this);
+        this.posTop = (parseInt(document.body.clientHeight, 10) - 80) / 2;
+    </script>
+</loading>

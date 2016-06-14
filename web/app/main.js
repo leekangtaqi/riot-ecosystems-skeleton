@@ -1,3 +1,4 @@
+import {} from '../framework/es6-polyfill';
 import {} from '../framework/jQueryLean';
 import riot from 'riot';
 import { provide } from '../framework/riot-redux';
@@ -5,10 +6,12 @@ import router from '../framework/lean-router';
 import riotRouterRedux from '../framework/riot-router-redux';
 import {} from 'riot-form';
 import { configureStore } from '../configuration/store';
+import { configureAPI } from '../configuration/api';
 
-const HISTORY_MODE = 'browser';
+var HISTORY_MODE = 'browser';
 
-const store = configureStore({}, HISTORY_MODE);
+var api = configureAPI();
+var store = configureStore({}, HISTORY_MODE);
 
 riot.mixin('router', router.router(HISTORY_MODE));
 riot.mixin('form', form);
@@ -20,5 +23,7 @@ router.hub.on('history-pending', (prev, $state, $location, ctx, next)=>{
 });
 
 require('./app.html');
-let entry = riot.mount('*', {store}); //app is provider
+require('./loading.html');
+
+var entry = riot.mount('*', {store}); //app is provider
 provide(store)(entry);

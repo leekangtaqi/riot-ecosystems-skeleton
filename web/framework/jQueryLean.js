@@ -92,8 +92,11 @@ const _ = require('./util');
         return nodes.length ===1 ? domify(nodes[0]) : domify(nodes);
     };
 
-
-    jQuery = _.mixin(jQuery, fetch);
+    jQuery = _.mixin(jQuery, ...fetch.default);
+    
+    jQuery.ajax = {};
+    jQuery.ajax.base = fetch.default.base;
+    jQuery.ajax.withProps = fetch.default.withProps;
 
     root.$ = jQuery;
 

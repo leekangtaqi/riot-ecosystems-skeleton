@@ -16,10 +16,16 @@ function syncHistoryWithStore(hub, store){
     });
     hub.on('busy-pending', ()=>{
         store.dispatch({
+            type: 'maskShow'
+        });
+        store.dispatch({
             type: '$routeBusy'
         })
     });
     hub.on('busy-resolve', ()=>{
+        store.dispatch({
+            type: 'maskHidden'
+        });
         store.dispatch({
             type: '$routeUnBusy'
         })
